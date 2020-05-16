@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
-
+import Dish from './DishDetailComponent'
 
 class Menu extends Component{
 
@@ -21,13 +21,7 @@ class Menu extends Component{
         if (dish != null)
         {
             return(
-                <Card>
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
-                    <CardBody>
-                        <CardTitle>{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-                </Card>
+                <Dish newdish={dish}/>
             );
 
         }
