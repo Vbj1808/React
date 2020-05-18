@@ -1,90 +1,73 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Card,CardImg,CardText,CardTitle,CardBody, Container} from "reactstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 
-class Dish extends Component {
+    
 
-    render() { 
-        const {dish} = this.props;
-        return ( 
-            <div className="row">
-
-            {this.renderDish(dish)}
-
+    function RenderDish({dish}) 
+    {
+        
+        return(
+            <div className="col-12 col-md-5 m-1">
+                <Card>
+                    <CardImg top src={dish.image} alt={dish.name}>
+                    </CardImg>
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
             </div>
         );
+            
     }
 
 
-    renderDish=(dish)=>
+    function RenderComments({comments})
     {
-        if (dish!=null)
-        {
+        if(comments != null)
             return(
-            
-            <React.Fragment>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12 col-md-5 m-1 ">
-                            <Card>
-                                <CardImg src={dish.image} alt={dish.name} />
-                                <CardBody>
-                                    <CardTitle>{dish.name}</CardTitle>
-                                    <CardText>{dish.description}</CardText>
-                                </CardBody>
-                            </Card>
-                        </div>
-                        <div className="col-12 col-md-5 m-1">
-                            <h4>Comments</h4>
-                            {this.renderComments(dish.comments)}
-                        </div>
-                    </div>
+                <div className="col-12 col-md-5 m-1">
+                    <h4>Comments</h4>
+                    <ul className="list-unstyled">
+                        {comments.map((comment) => {
+                            return(
+                                <li key={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
-            
-            </React.Fragment>
-            )
-        }
-        else{
-            return(<div></div>)
-        }
-    }
-
-    renderComments =(comments) =>
-    {
-
-        if (comments!=null)
-        {
-            const com = comments.map(co=>{
-
-                    return(
-                    <React.Fragment>
-                    <li>{co.comment}</li><br />
-                    <li>-- {co.author}, {this.formatDate(co.date)}</li><br />
-                    </React.Fragment>
-                )
-
-                }
-                );
+            );
+        else 
             return(
-                <ul className="list-unstyled">
-                {com}
-                </ul>
-            )
-        }
-        else{
-            return(<div></div>)
-        }
+                <div></div>
+            );
+        
     }
 
-    formatDate(date)
+    
+
+    const Dish = (props) =>
     {
-    const option = {year: 'numeric', month: 'short', day: 'numeric' };
-    const date1 = new Date(date)
-    const newdate = date1.toLocaleDateString("en-US", option)
-    return newdate;
-
+        if(props.dish != null) 
+            return(
+                <div className="container">
+                <div className="row">
+                    <RenderDish dish={props.dish} />
+                    <RenderComments comments={props.dish.comments}/>
+                </div> 
+                </div>
+            );
+        else
+            return(
+                <div></div>
+            )
     }
-}
+    
+
 
 
 
